@@ -9,7 +9,7 @@ public class Pet {
     private String name;
     private BigDecimal monthlyCost;
     private LocalDate birthday;
-    private PetKind kind;
-    private PetSize size;
+    private PetKind kind = PetKind.DOG;
+    private PetSize size = PetSize.MEDIUM;
     private LocalDateTime adoptedAt;
 }
