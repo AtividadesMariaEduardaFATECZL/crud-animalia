@@ -49,6 +49,8 @@ public class PetDao implements IObjDao<Pet> {
         connection.setAutoCommit(false);
         String sql = "UPDATE pet p SET p.name = ?, p.monthlyCost = ?, p.kind = ?, p.size = ? WHERE id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            cantBeNull(pet);
+            cantBeNull(stm);
             stm.setString(1, pet.getName());
             stm.setBigDecimal(2, pet.getMonthlyCost());
             stm.setString(3, pet.getKind().name());
@@ -82,6 +84,7 @@ public class PetDao implements IObjDao<Pet> {
 
     @Override
     public Pet findById(Long id) throws SQLException {
+        cantBeNull(id);
         Pet pet = new Pet();
         connection.setAutoCommit(false);
         String sql = "SELECT p.id, p.name, p.monthlyCost, p.kind, p.size FROM pet p WHERE p.id = ?";

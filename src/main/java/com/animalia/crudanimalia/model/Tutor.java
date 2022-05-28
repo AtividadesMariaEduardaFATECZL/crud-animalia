@@ -14,20 +14,17 @@ public class Tutor {
     private Long id;
     private String name;
     private String cpf;
-    private LocalDate birthday;
     private BigDecimal remuneration;
     private HomeKind homeKind = HomeKind.HOUSE;
     private List<Pet> pets = new ArrayList<>();
 
-    public Tutor(String name, String cpf, LocalDate birthday, BigDecimal remuneration, List<Pet> pets) {
+    public Tutor(String name, String cpf,BigDecimal remuneration, List<Pet> pets) {
         cantBeNullOrEmpty(name);
         cantBeNullOrEmpty(cpf);
-        cantBeNull(birthday);
         cantBeNull(remuneration);
         cantBeNull(pets);
         this.name = name;
         this.cpf = cpf;
-        this.birthday = birthday;
         this.remuneration = remuneration;
         this.pets = pets;
     }
@@ -38,10 +35,6 @@ public class Tutor {
 
     public String getCpf() {
         return cpf;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
     }
 
     public BigDecimal getRemuneration() {

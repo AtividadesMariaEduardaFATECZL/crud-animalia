@@ -6,6 +6,8 @@ import com.animalia.crudanimalia.model.Tutor;
 import java.sql.*;
 import java.util.List;
 
+import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNull;
+
 public class TutorDao implements IObjDao<Tutor>{
 
     private Connection connection;
@@ -24,8 +26,19 @@ public class TutorDao implements IObjDao<Tutor>{
     }
 
     @Override
-    public void delete(Long id) {
-
+    public void delete(Long id) throws SQLException {
+        cantBeNull(id);
+        connection.setAutoCommit(false);
+        try (PreparedStatement stm = connection.prepareStatement("DELETE FROM tutor WHERE id = ?")) {
+            stm.setLong(1, id);
+            stm.execute();
+            Integer deletedLines = stm.getUpdateCount();
+            System.out.println("Modified lines: " + deletedLines);
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            connection.rollback();
+        }
     }
 
     @Override
