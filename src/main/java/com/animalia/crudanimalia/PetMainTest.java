@@ -9,10 +9,12 @@ import java.sql.SQLException;
 
 public class PetMainTest {
     public static void main(String[] args) {
-        Pet pet = new Pet("Budao", new BigDecimal("10.00"));
         try (Connection connection = new ConnectionFactory().retrieveConnection()) {
             PetDao petDao = new PetDao(connection);
-            petDao.insert(pet);
+            Pet pet2 = petDao.findById(2L);
+            System.out.println(pet2);
+//            petDao.update(pet2);
+//            System.out.println(pet2);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

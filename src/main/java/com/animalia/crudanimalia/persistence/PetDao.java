@@ -44,8 +44,24 @@ public class PetDao implements IObjDao<Pet> {
     }
 
     @Override
-    public void update(Long id) {
-
+    public void update(Pet pet) throws SQLException {
+        cantBeNull(pet);
+        connection.setAutoCommit(false);
+        String sql = "UPDATE pet p SET p.name = ?, p.monthlyCost = ?, p.kind = ?, p.size = ? WHERE id = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, pet.getName());
+            stm.setBigDecimal(2, pet.getMonthlyCost());
+            stm.setString(3, pet.getKind().name());
+            stm.setString(4, pet.getSize().name());
+            stm.setLong(5, pet.getId());
+            stm.execute();
+            Integer deletedLines = stm.getUpdateCount();
+            System.out.println("Modified lines: " + deletedLines);
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            connection.rollback();
+        }
     }
 
     @Override
@@ -64,10 +80,26 @@ public class PetDao implements IObjDao<Pet> {
         }
     }
 
-
     @Override
-    public Pet findById(Long id) {
-        return null;
+    public Pet findById(Long id) throws SQLException {
+        Pet pet = new Pet();
+        connection.setAutoCommit(false);
+        String sql = "SELECT p.name, p.monthlyCost, p.kind, p.size FROM pet p WHERE p.id = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setLong(1, id);
+            stm.execute();
+            try (ResultSet rst = stm.getResultSet()) {
+                while (rst.next()) {
+                    pet = new Pet(rst.getString("p.name"), rst.getBigDecimal("p.monthlyCost"),
+                            PetKind.valueOf(rst.getString("p.kind")),
+                            PetSize.valueOf(rst.getString("p.size")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            connection.rollback();
+        }
+        return pet;
     }
 
     @Override

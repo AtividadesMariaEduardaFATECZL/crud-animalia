@@ -1,5 +1,6 @@
 package com.animalia.crudanimalia.persistence;
 
+import com.animalia.crudanimalia.model.Pet;
 import com.animalia.crudanimalia.model.Tutor;
 
 import java.sql.*;
@@ -18,7 +19,7 @@ public class TutorDao implements IObjDao<Tutor>{
     }
 
     @Override
-    public void update(Long id) {
+    public void update(Pet pet) {
 
     }
 
