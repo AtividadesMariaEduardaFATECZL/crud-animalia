@@ -1,4 +1,4 @@
-CREATE animalia;
+CREATE DATABASE animalia;
 USE animalia;
 
 CREATE TABLE pet(
