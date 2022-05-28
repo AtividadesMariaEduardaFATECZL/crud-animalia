@@ -23,7 +23,7 @@ public class TutorDao implements IObjDao<Tutor>{
     }
 
     @Override
-    public void remove(Long id) {
+    public void delete(Long id) {
 
     }
 
@@ -33,7 +33,7 @@ public class TutorDao implements IObjDao<Tutor>{
     }
 
     @Override
-    public List<Tutor> lista() {
+    public List<Tutor> list() {
         return null;
     }
 }

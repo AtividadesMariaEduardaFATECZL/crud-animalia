@@ -1,10 +1,6 @@
 package com.animalia.crudanimalia.model;
 
-import com.animalia.crudanimalia.model.utils.ValidadorUtils;
-
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNull;
 import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNullOrEmpty;
@@ -13,21 +9,24 @@ public class Pet {
     private Long id;
     private String name;
     private BigDecimal monthlyCost;
-    private LocalDate birthday;
     private PetKind kind = PetKind.DOG;
     private PetSize size = PetSize.MEDIUM;
-    private LocalDateTime adoptedAt;
 
-    public Pet(String name, BigDecimal monthlyCost, LocalDate birthday, LocalDateTime adoptedAt) {
+    public Pet(String name, BigDecimal monthlyCost) {
         cantBeNullOrEmpty(name);
         cantBeNull(monthlyCost);
-        cantBeNull(birthday);
-        cantBeNull(adoptedAt);
         this.name = name;
         this.monthlyCost = monthlyCost;
-        this.birthday = birthday;
-        this.adoptedAt = adoptedAt;
     }
+
+    public Pet(String name, BigDecimal monthlyCost, PetKind kind, PetSize size) {
+        this(name, monthlyCost);
+        this.kind = kind;
+        this.size = size;
+    }
+
+
+
 
     public String getName() {
         return name;
@@ -37,19 +36,11 @@ public class Pet {
         return monthlyCost;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
     public PetKind getKind() {
         return kind;
     }
 
     public PetSize getSize() {
         return size;
-    }
-
-    public LocalDateTime getAdoptedAt() {
-        return adoptedAt;
     }
 }

@@ -3,6 +3,7 @@ module com.animalia.crudanimalia {
     requires javafx.fxml;
     requires c3p0;
     requires java.sql;
+    requires java.naming;
 
 
     opens com.animalia.crudanimalia to javafx.fxml;
