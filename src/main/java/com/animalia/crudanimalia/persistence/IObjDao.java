@@ -9,6 +9,6 @@ public interface IObjDao<T> {
     public void update(Long id);
     public void delete(Long id) throws SQLException;
     public T findById(Long id);
-    public List<T> list();
+    public List<T> findAll() throws SQLException;
 
 }

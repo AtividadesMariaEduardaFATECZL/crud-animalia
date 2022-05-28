@@ -33,7 +33,7 @@ public class TutorDao implements IObjDao<Tutor>{
     }
 
     @Override
-    public List<Tutor> list() {
+    public List<Tutor> findAll() {
         return null;
     }
 }

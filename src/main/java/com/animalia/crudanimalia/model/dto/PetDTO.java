@@ -1,25 +1,19 @@
-package com.animalia.crudanimalia.model;
+package com.animalia.crudanimalia.model.dto;
+
+import com.animalia.crudanimalia.model.PetKind;
+import com.animalia.crudanimalia.model.PetSize;
 
 import java.math.BigDecimal;
 
-import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNull;
-import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNullOrEmpty;
-
-public class Pet {
+public class PetDTO {
     private String name;
     private BigDecimal monthlyCost;
     private PetKind kind = PetKind.DOG;
     private PetSize size = PetSize.MEDIUM;
 
-    public Pet(String name, BigDecimal monthlyCost) {
-        cantBeNullOrEmpty(name);
-        cantBeNull(monthlyCost);
+    public PetDTO(String name, BigDecimal monthlyCost, PetKind kind, PetSize size) {
         this.name = name;
         this.monthlyCost = monthlyCost;
-    }
-
-    public Pet(String name, BigDecimal monthlyCost, PetKind kind, PetSize size) {
-        this(name, monthlyCost);
         this.kind = kind;
         this.size = size;
     }

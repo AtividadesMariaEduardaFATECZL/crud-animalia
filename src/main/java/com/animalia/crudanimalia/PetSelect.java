@@ -1,18 +1,18 @@
 package com.animalia.crudanimalia;
 
-import com.animalia.crudanimalia.model.*;
+import com.animalia.crudanimalia.model.Pet;
 import com.animalia.crudanimalia.persistence.PetDao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
-public class PetMainTest {
+public class PetSelect {
     public static void main(String[] args) {
-        Pet pet = new Pet("Budao", new BigDecimal("10.00"));
         try (Connection connection = new ConnectionFactory().retrieveConnection()) {
             PetDao petDao = new PetDao(connection);
-            petDao.insert(pet);
+            List<Pet> all = petDao.findAll();
+            all.forEach(a -> System.out.println(a.toString()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

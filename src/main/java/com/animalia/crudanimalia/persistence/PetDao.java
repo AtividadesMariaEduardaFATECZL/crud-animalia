@@ -1,8 +1,9 @@
 package com.animalia.crudanimalia.persistence;
 
-import com.animalia.crudanimalia.model.Pet;
+import com.animalia.crudanimalia.model.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNull;
@@ -18,15 +19,15 @@ public class PetDao implements IObjDao<Pet> {
     public void insert(Pet pet) throws SQLException {
         cantBeNull(pet);
         String sql =
-                "INSERT INTO pet (name, monthlyCost) " +
-                        "VALUES(?, ?)";
+                "INSERT INTO pet (name, monthlyCost, kind, size) " +
+                        "VALUES(?, ?, ?, ?)";
         try (PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             cantBeNull(pet);
             cantBeNull(stm);
             stm.setString(1, pet.getName());
             stm.setBigDecimal(2, pet.getMonthlyCost());
-//            stm.setString(4, pet.getKind().name());
-//            stm.setString(5, pet.getSize().name());
+            stm.setString(3, pet.getKind().name());
+            stm.setString(4, pet.getSize().name());
 
             stm.execute();
 
@@ -51,7 +52,7 @@ public class PetDao implements IObjDao<Pet> {
     public void delete(Long id) throws SQLException {
         cantBeNull(id);
         connection.setAutoCommit(false);
-        try (PreparedStatement stm = connection.prepareStatement("DELETE FROM course WHERE id = ?")) {
+        try (PreparedStatement stm = connection.prepareStatement("DELETE FROM pet WHERE id = ?")) {
             stm.setLong(1, id);
             stm.execute();
             Integer deletedLines = stm.getUpdateCount();
@@ -70,7 +71,29 @@ public class PetDao implements IObjDao<Pet> {
     }
 
     @Override
-    public List<Pet> list() {
-        return null;
+    public List<Pet> findAll() {
+        List<Pet> pets = new ArrayList<>();
+
+        String sql =
+                "SELECT p.name, p.monthlyCost, p.kind, p.size FROM pet p";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.execute();
+            this.turnResultSetInPet(pets, stm);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pets;
+    }
+
+    private void turnResultSetInPet(List<Pet> pets, PreparedStatement pstm) throws SQLException {
+        try (ResultSet rst = pstm.getResultSet()) {
+            while (rst.next()) {
+                Pet pet = new Pet(rst.getString("p.name"), rst.getBigDecimal("p.monthlyCost"),
+                        PetKind.valueOf(rst.getString("p.kind")),
+                        PetSize.valueOf(rst.getString("p.size")));
+                pets.add(pet);
+            }
+        }
     }
 }
+
