@@ -12,9 +12,10 @@ public class PetMainTest {
         try (Connection connection = new ConnectionFactory().retrieveConnection()) {
             PetDao petDao = new PetDao(connection);
             Pet pet2 = petDao.findById(2L);
+            pet2.setMonthlyCost(new BigDecimal("20"));
+            pet2.setName("Buddd");
+            petDao.update(pet2);
             System.out.println(pet2);
-//            petDao.update(pet2);
-//            System.out.println(pet2);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

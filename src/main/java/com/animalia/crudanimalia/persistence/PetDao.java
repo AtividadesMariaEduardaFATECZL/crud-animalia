@@ -55,8 +55,8 @@ public class PetDao implements IObjDao<Pet> {
             stm.setString(4, pet.getSize().name());
             stm.setLong(5, pet.getId());
             stm.execute();
-            Integer deletedLines = stm.getUpdateCount();
-            System.out.println("Modified lines: " + deletedLines);
+            Integer updateCount = stm.getUpdateCount();
+            System.out.println("Modified lines: " + updateCount);
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,13 +84,13 @@ public class PetDao implements IObjDao<Pet> {
     public Pet findById(Long id) throws SQLException {
         Pet pet = new Pet();
         connection.setAutoCommit(false);
-        String sql = "SELECT p.name, p.monthlyCost, p.kind, p.size FROM pet p WHERE p.id = ?";
+        String sql = "SELECT p.id, p.name, p.monthlyCost, p.kind, p.size FROM pet p WHERE p.id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setLong(1, id);
             stm.execute();
             try (ResultSet rst = stm.getResultSet()) {
                 while (rst.next()) {
-                    pet = new Pet(rst.getString("p.name"), rst.getBigDecimal("p.monthlyCost"),
+                    pet = new Pet(rst.getLong("p.id"), rst.getString("p.name"), rst.getBigDecimal("p.monthlyCost"),
                             PetKind.valueOf(rst.getString("p.kind")),
                             PetSize.valueOf(rst.getString("p.size")));
                 }

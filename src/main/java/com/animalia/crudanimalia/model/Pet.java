@@ -15,14 +15,6 @@ public class Pet {
     @Deprecated
     public Pet() {}
 
-    public Pet(Long id, String name, BigDecimal monthlyCost, PetKind kind, PetSize size) {
-        this.id = id;
-        this.name = name;
-        this.monthlyCost = monthlyCost;
-        this.kind = kind;
-        this.size = size;
-    }
-
     public Pet(String name, BigDecimal monthlyCost) {
         cantBeNullOrEmpty(name);
         cantBeNull(monthlyCost);
@@ -34,6 +26,12 @@ public class Pet {
         this(name, monthlyCost);
         this.kind = kind;
         this.size = size;
+    }
+
+    @Deprecated
+    public Pet(Long id, String name, BigDecimal monthlyCost, PetKind kind, PetSize size) {
+        this(name, monthlyCost, kind, size);
+        this.id = id;
     }
 
     public Long getId() {
