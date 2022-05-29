@@ -1,9 +1,6 @@
 package com.animalia.crudanimalia.model;
 
-import com.animalia.crudanimalia.model.utils.ValidadorUtils;
-
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +13,31 @@ public class Tutor {
     private String cpf;
     private BigDecimal remuneration;
     private HomeKind homeKind = HomeKind.HOUSE;
-    private List<Pet> pets = new ArrayList<>();
 
-    public Tutor(String name, String cpf,BigDecimal remuneration, List<Pet> pets) {
+    @Deprecated
+    public Tutor() {}
+
+    public Tutor(String name, String cpf,BigDecimal remuneration) {
         cantBeNullOrEmpty(name);
         cantBeNullOrEmpty(cpf);
         cantBeNull(remuneration);
-        cantBeNull(pets);
         this.name = name;
         this.cpf = cpf;
         this.remuneration = remuneration;
-        this.pets = pets;
+    }
+
+    public Tutor(String name, String cpf, BigDecimal remuneration, HomeKind homeKind) {
+        this(name, cpf, remuneration);
+        this.homeKind = homeKind;
+    }
+
+    public Tutor(Long id, String name, String cpf, BigDecimal remuneration, HomeKind homeKind) {
+       this(name, cpf, remuneration);
+       this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -45,7 +56,18 @@ public class Tutor {
         return homeKind;
     }
 
-    public List<Pet> getPets() {
-        return pets;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Tutor{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", remuneration=" + remuneration +
+                ", homeKind=" + homeKind +
+                '}';
     }
 }

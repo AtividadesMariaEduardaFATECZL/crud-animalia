@@ -10,7 +10,7 @@ import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNull;
 
 public class PetDao implements IObjDao<Pet> {
 
-    private Connection connection;
+    private final Connection connection;
 
     public PetDao(Connection connection) {
         this.connection = connection;
@@ -33,7 +33,7 @@ public class PetDao implements IObjDao<Pet> {
 
             ResultSet rst = stm.getGeneratedKeys();
             while (rst.next()) {
-                Integer id = rst.getInt(1);
+                int id = rst.getInt(1);
                 System.out.println("O id criado foi: " + id);
             }
         } catch (Exception ex) {
@@ -57,7 +57,7 @@ public class PetDao implements IObjDao<Pet> {
             stm.setString(4, pet.getSize().name());
             stm.setLong(5, pet.getId());
             stm.execute();
-            Integer updateCount = stm.getUpdateCount();
+            int updateCount = stm.getUpdateCount();
             System.out.println("Modified lines: " + updateCount);
             connection.commit();
         } catch (SQLException e) {
@@ -73,7 +73,7 @@ public class PetDao implements IObjDao<Pet> {
         try (PreparedStatement stm = connection.prepareStatement("DELETE FROM pet WHERE id = ?")) {
             stm.setLong(1, id);
             stm.execute();
-            Integer deletedLines = stm.getUpdateCount();
+            int deletedLines = stm.getUpdateCount();
             System.out.println("Modified lines: " + deletedLines);
             connection.commit();
         } catch (SQLException e) {
