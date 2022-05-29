@@ -1,11 +1,9 @@
 package com.animalia.crudanimalia.model;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
-import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNull;
-import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNullOrEmpty;
+import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNull;
+import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNullOrEmpty;
 
 public class Tutor {
     private Long id;
@@ -20,7 +18,6 @@ public class Tutor {
     public Tutor(String name, String cpf,BigDecimal remuneration) {
         cantBeNullOrEmpty(name);
         cantBeNullOrEmpty(cpf);
-        cantBeNull(remuneration);
         this.name = name;
         this.cpf = cpf;
         this.remuneration = remuneration;

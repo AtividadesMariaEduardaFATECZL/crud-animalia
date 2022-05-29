@@ -2,8 +2,8 @@ package com.animalia.crudanimalia.model;
 
 import java.math.BigDecimal;
 
-import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNull;
-import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNullOrEmpty;
+import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNull;
+import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNullOrEmpty;
 
 public class Pet {
     private Long id;

@@ -1,4 +1,4 @@
-package com.animalia.crudanimalia.model.utils;
+package com.animalia.crudanimalia.utils.validator;
 
 public class ValidadorUtils {
 

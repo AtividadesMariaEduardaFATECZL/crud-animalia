@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNull;
+import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNull;
 
 public class PetDao implements IObjDao<Pet> {
 
@@ -18,6 +18,7 @@ public class PetDao implements IObjDao<Pet> {
     @Override
     public void insert(Pet pet) throws SQLException {
         cantBeNull(pet);
+        connection.setAutoCommit(false);
         String sql =
                 "INSERT INTO pet (name, monthlyCost, kind, size) " +
                         "VALUES(?, ?, ?, ?)";

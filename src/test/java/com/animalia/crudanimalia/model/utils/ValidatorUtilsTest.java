@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
-import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNull;
-import static com.animalia.crudanimalia.model.utils.ValidadorUtils.cantBeNullOrEmpty;
+import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNull;
+import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNullOrEmpty;
 
 public class ValidatorUtilsTest {
 

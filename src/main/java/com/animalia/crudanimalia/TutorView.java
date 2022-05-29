@@ -1,8 +1,8 @@
 package com.animalia.crudanimalia;
 
 import com.animalia.crudanimalia.controller.PetController;
-import com.animalia.crudanimalia.model.PetKind;
-import com.animalia.crudanimalia.model.PetSize;
+import com.animalia.crudanimalia.controller.TutorController;
+import com.animalia.crudanimalia.model.Tutor;
 import com.animalia.crudanimalia.utils.converter.MoneyStringConverter;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -15,17 +15,17 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class HelloApplication extends Application {
+public class TutorView extends Application {
     private final TextField txtName = new TextField();
-    private final TextField txtMonthlyCost = new TextField();
-    private final TextField txtSize = new TextField();
-    private final TextField kind = new TextField();
+    private final TextField txtCpf = new TextField();
+    private final TextField txtRemuneration = new TextField();
+    private final TextField txtHomeKind = new TextField();
 
     private final Button btnAdicionar = new Button("Adicionar");
     private final Button btnPesquisar = new Button("Pesquisar");
-    private final PetController control = new PetController();
+    private final TutorController control = new TutorController();
 
-    public HelloApplication() throws Exception {
+    public TutorView() throws Exception {
     }
 
     @Override
@@ -36,20 +36,21 @@ public class HelloApplication extends Application {
 
         grid.add(new Label("Nome"), 0, 0);
         grid.add(txtName, 1, 0);
-        grid.add(new Label("Custo mensal"), 0, 1);
-        grid.add(txtMonthlyCost, 1, 1);
-        grid.add(new Label("Tipo"), 0, 2);
-        grid.add(kind, 1, 2);
-        grid.add(new Label("Tamanho"), 0, 3);
-        grid.add(txtSize, 1, 3);
+        grid.add(new Label("CPF"), 0, 1);
+        grid.add(txtCpf, 1, 1);
+        grid.add(new Label("Remuneração"), 0, 2);
+        grid.add(txtHomeKind, 1, 2);
+        grid.add(new Label("Tipo de casa"), 0, 3);
+        grid.add(txtRemuneration, 1, 3);
 
         grid.add(btnPesquisar, 6, 5);
         grid.add(btnAdicionar, 7, 5);
 
-        principal.setCenter(control.getTable());
+//        principal.setCenter(control.getTable());
 
         Bindings.bindBidirectional(control.nameProperty(), txtName.textProperty());
-        Bindings.bindBidirectional(txtMonthlyCost.textProperty(), control.monthlyCostProperty(), new MoneyStringConverter());
+        Bindings.bindBidirectional(control.cpfProperty(), txtName.textProperty());
+        Bindings.bindBidirectional(txtRemuneration.textProperty(), control.remunerationProperty(), new MoneyStringConverter());
 //        Bindings.bindBidirectional(control.sizeProperty(), txtSize.textProperty(), PetSize.getDisplayName());
 //        Bindings.bindBidirectional(control.kindProperty(), kind.textProperty(), PetKind.);
 
