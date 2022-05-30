@@ -39,7 +39,6 @@ public class Tutor {
     @Override
     public String toString() {
         return "Tutor{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", cpf='" + cpf + '\'' +
                 '}';

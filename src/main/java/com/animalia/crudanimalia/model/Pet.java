@@ -54,22 +54,6 @@ public class Pet {
         return size;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setMonthlyCost(BigDecimal monthlyCost) {
-        this.monthlyCost = monthlyCost;
-    }
-
-    public void setKind(PetKind kind) {
-        this.kind = kind;
-    }
-
-    public void setSize(PetSize size) {
-        this.size = size;
-    }
-
     @Override
     public String toString() {
         return "Pet{" +
