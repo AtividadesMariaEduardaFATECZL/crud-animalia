@@ -1,5 +1,7 @@
 package com.animalia.crudanimalia.persistence;
 
+import com.animalia.crudanimalia.model.Tutor;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,4 +13,5 @@ public interface IObjDao<T> {
     public T findById(Long id) throws SQLException;
     public List<T> findAll() throws SQLException;
 
+    List<Tutor> findByName(String name) throws SQLException;
 }

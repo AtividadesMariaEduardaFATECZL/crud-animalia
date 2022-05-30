@@ -17,6 +17,7 @@ import java.sql.SQLException;
 public class PetController {
     private final StringProperty name = new SimpleStringProperty("");
     private final ObjectProperty<BigDecimal> monthlyCost = new SimpleObjectProperty<>();
+
     private final ObjectProperty<PetKind> kind = new SimpleObjectProperty<>();
     private final ObjectProperty<PetSize> size = new SimpleObjectProperty<>();
 

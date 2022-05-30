@@ -50,7 +50,7 @@ public class HelloApplication extends Application {
 
         Bindings.bindBidirectional(control.nameProperty(), txtName.textProperty());
         Bindings.bindBidirectional(txtMonthlyCost.textProperty(), control.monthlyCostProperty(), new MoneyStringConverter());
-//        Bindings.bindBidirectional(control.sizeProperty(), txtSize.textProperty(), PetSize.getDisplayName());
+//        Bindings.bindBidirectional(control.sizeProperty(), txtSize.textProperty(), );
 //        Bindings.bindBidirectional(control.kindProperty(), kind.textProperty(), PetKind.);
 
         btnAdicionar.setOnAction( e -> {

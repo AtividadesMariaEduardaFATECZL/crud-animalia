@@ -121,6 +121,12 @@ public class PetDao implements IObjDao<Pet> {
         return pets;
     }
 
+    @Override
+    public List<Tutor> findByName(String name) throws SQLException {
+        return null;
+    }
+
+
     private void turnResultSetInPet(List<Pet> pets, PreparedStatement pstm) throws SQLException {
         try (ResultSet rst = pstm.getResultSet()) {
             while (rst.next()) {

@@ -42,6 +42,14 @@ public class TutorView extends Application {
         Bindings.bindBidirectional(control.nameProperty(), txtName.textProperty());
         Bindings.bindBidirectional(control.cpfProperty(), txtCpf.textProperty());
 
+        btnPesquisar.setOnAction(e -> {
+            try {
+                control.pesquisar();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         btnAdicionar.setOnAction( e -> {
             try {
                 control.add();

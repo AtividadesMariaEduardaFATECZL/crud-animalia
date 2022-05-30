@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TutorController {
     private final StringProperty name = new SimpleStringProperty("");
@@ -52,6 +53,13 @@ public class TutorController {
         tutors.add(tutor);
         dao.insert(tutor);
         System.out.println("Tutores inseridos: " + dao.findAll().toString());
+    }
+
+
+    public void pesquisar() throws SQLException {
+        List<Tutor> tutorsFound = dao.findByName(name.get());
+        tutors.clear();
+        tutors.addAll(tutorsFound);
     }
 
 }

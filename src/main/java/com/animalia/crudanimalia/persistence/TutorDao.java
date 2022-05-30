@@ -102,6 +102,7 @@ public class TutorDao implements IObjDao<Tutor>{
         return tutor;
     }
 
+
     @Override
     public List<Tutor> findAll() {
         List<Tutor> tutors = new ArrayList<>();
@@ -111,6 +112,18 @@ public class TutorDao implements IObjDao<Tutor>{
             this.turnResultSetInTutor(tutors, stm);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return tutors;
+    }
+
+
+    @Override
+    public List<Tutor> findByName(String name) throws SQLException {
+        List<Tutor> tutors = new ArrayList<>();
+        String sql = "SELECT t.cpf, t.name FROM tutor t WHERE t.name LIKE '%" + name + "%'";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.execute();
+            this.turnResultSetInTutor(tutors, stm);
         }
         return tutors;
     }
