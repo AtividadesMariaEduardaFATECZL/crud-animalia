@@ -8,21 +8,19 @@ public class Tutor {
     private Long id;
     private String name;
     private String cpf;
-    private LocalDate birthday;
     @Deprecated
     public Tutor() {}
 
-    public Tutor(String name, String cpf,LocalDate birthday) {
+    public Tutor(String name, String cpf) {
         cantBeNullOrEmpty(name);
         cantBeNullOrEmpty(cpf);
         this.name = name;
         this.cpf = cpf;
-        this.birthday = birthday;
     }
 
     @Deprecated
-    public Tutor(Long id, String name, String cpf, LocalDate birthday) {
-        this(name, cpf, birthday);
+    public Tutor(Long id, String name, String cpf) {
+        this(name, cpf);
         this.id = id;
     }
 
@@ -38,7 +36,12 @@ public class Tutor {
         return cpf;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
+    @Override
+    public String toString() {
+        return "Tutor{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cpf='" + cpf + '\'' +
+                '}';
     }
 }

@@ -12,14 +12,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 public class TutorController {
     private final StringProperty name = new SimpleStringProperty("");
     private final StringProperty cpf = new SimpleStringProperty("");
-    private ObjectProperty<LocalDate> birthday = new SimpleObjectProperty<>();
 
     private final TableView<Tutor> table = new TableView<>();
 
@@ -33,16 +29,8 @@ public class TutorController {
         col1.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<Tutor, String> col2 = new TableColumn<>("CPF");
         col2.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-        TableColumn<Tutor, String> col3 = new TableColumn<>("Aniversário");
-        col3.setCellValueFactory(new PropertyValueFactory<>("birthday"));
 
-        col3.setCellValueFactory((itemData)-> {
-            LocalDate dt = itemData.getValue().getBirthday();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return new ReadOnlyStringWrapper(dt.format(formatter));
-        });
-
-        table.getColumns().addAll(col1, col2, col3);
+        table.getColumns().addAll(col1, col2);
 
         table.setItems(tutors);
     }
@@ -55,18 +43,15 @@ public class TutorController {
         return cpf;
     }
 
-    public ObjectProperty<LocalDate> birthdayProperty() {
-        return birthday;
-    }
-
     public TableView getTable() {
         return table;
     }
 
     public void add() throws SQLException {
-        Tutor tutor = new Tutor(name.get(),cpf.get(), birthday.get());
+        Tutor tutor = new Tutor(name.get(),cpf.get());
         tutors.add(tutor);
         dao.insert(tutor);
+        System.out.println("Tutores inseridos: " + dao.findAll().toString());
     }
 
 }

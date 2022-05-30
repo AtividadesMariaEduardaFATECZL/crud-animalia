@@ -1,7 +1,6 @@
 package com.animalia.crudanimalia;
 
 import com.animalia.crudanimalia.controller.TutorController;
-import com.animalia.crudanimalia.utils.converter.MoneyStringConverter;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
@@ -9,16 +8,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 
 public class TutorView extends Application {
     private final TextField txtName = new TextField();
     private final TextField txtCpf = new TextField();
-    private final TextField txtBirthday = new TextField();
 
     private final Button btnAdicionar = new Button("Adicionar");
     private final Button btnPesquisar = new Button("Pesquisar");
@@ -28,7 +24,7 @@ public class TutorView extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         BorderPane principal = new BorderPane();
         GridPane grid = new GridPane();
         principal.setTop(grid);
@@ -37,21 +33,14 @@ public class TutorView extends Application {
         grid.add(txtName, 1, 0);
         grid.add(new Label("CPF"), 0, 1);
         grid.add(txtCpf, 1, 1);
-        grid.add(new Label("Aniversário"), 0, 2);
-        grid.add(txtBirthday, 1, 2);
 
         grid.add(btnPesquisar, 6, 5);
         grid.add(btnAdicionar, 7, 5);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDateStringConverter ldc =
-                new LocalDateStringConverter(formatter, null);
-
         principal.setCenter(control.getTable());
 
         Bindings.bindBidirectional(control.nameProperty(), txtName.textProperty());
-        Bindings.bindBidirectional(control.cpfProperty(), txtName.textProperty());
-        Bindings.bindBidirectional(txtBirthday.textProperty(), control.birthdayProperty(), ldc);
+        Bindings.bindBidirectional(control.cpfProperty(), txtCpf.textProperty());
 
         btnAdicionar.setOnAction( e -> {
             try {

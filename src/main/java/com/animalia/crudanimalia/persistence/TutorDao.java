@@ -21,14 +21,13 @@ public class TutorDao implements IObjDao<Tutor>{
         cantBeNull(tutor);
         connection.setAutoCommit(false);
         String sql =
-                "INSERT INTO tutor (name, cpf, birthday) " +
-                        "VALUES(?, ?, ?)";
+                "INSERT INTO tutor (name, cpf) " +
+                        "VALUES(?, ?)";
         try (PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             cantBeNull(tutor);
             cantBeNull(stm);
             stm.setString(1, tutor.getName());
             stm.setString(2, tutor.getCpf());
-            stm.setDate(3, Date.valueOf(tutor.getBirthday()));
 
             stm.execute();
 
@@ -48,14 +47,13 @@ public class TutorDao implements IObjDao<Tutor>{
     public void update(Tutor tutor) throws SQLException {
         cantBeNull(tutor);
         connection.setAutoCommit(false);
-        String sql = "UPDATE tutor t SET t.name = ?, t.cpf = ?, t.birthday = ? WHERE id = ?";
+        String sql = "UPDATE tutor t SET t.name = ?, t.cpf = ? = ? WHERE id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             cantBeNull(tutor);
             cantBeNull(stm);
             stm.setString(1, tutor.getName());
             stm.setString(2, tutor.getCpf());
-            stm.setDate(3, Date.valueOf(tutor.getBirthday()));
-            stm.setLong(4, tutor.getId());
+            stm.setLong(3, tutor.getId());
             stm.execute();
             int updateCount = stm.getUpdateCount();
             System.out.println("Modified lines: " + updateCount);
@@ -87,14 +85,14 @@ public class TutorDao implements IObjDao<Tutor>{
         cantBeNull(id);
         Tutor tutor = new Tutor();
         connection.setAutoCommit(false);
-        String sql = "SELECT t.id, t.name, t.cpf, t.birthday FROM tutor t WHERE t.id = ?";
+        String sql = "SELECT t.id, t.name, t.cpf FROM tutor t WHERE t.id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setLong(1, id);
             stm.execute();
             try (ResultSet rst = stm.getResultSet()) {
                 while (rst.next()) {
                     tutor = new Tutor(rst.getLong("t.id"), rst.getString("t.name"),
-                            rst.getString("t.cpf"), rst.getDate("t.birthday").toLocalDate());
+                            rst.getString("t.cpf"));
                 }
             }
         } catch (SQLException e) {
@@ -107,7 +105,7 @@ public class TutorDao implements IObjDao<Tutor>{
     @Override
     public List<Tutor> findAll() {
         List<Tutor> tutors = new ArrayList<>();
-        String sql = "SELECT t.id, t.name, t.birthday FROM tutor t";
+        String sql = "SELECT t.id, t.name, t.cpf FROM tutor t";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.execute();
             this.turnResultSetInTutor(tutors, stm);
@@ -120,8 +118,7 @@ public class TutorDao implements IObjDao<Tutor>{
     private void turnResultSetInTutor(List<Tutor> tutors, PreparedStatement pstm) throws SQLException {
         try (ResultSet rst = pstm.getResultSet()) {
             while (rst.next()) {
-                Tutor tutor = new Tutor(rst.getString("t.name"), rst.getString("t.cpf"),
-                        rst.getDate("t.birthday").toLocalDate());
+                Tutor tutor = new Tutor(rst.getString("t.name"), rst.getString("t.cpf"));
                 tutors.add(tutor);
             }
         }
