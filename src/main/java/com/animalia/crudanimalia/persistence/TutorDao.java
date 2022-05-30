@@ -21,15 +21,14 @@ public class TutorDao implements IObjDao<Tutor>{
         cantBeNull(tutor);
         connection.setAutoCommit(false);
         String sql =
-                "INSERT INTO tutor  tutor (name, cpf, remuneration, home_kind) " +
-                        "VALUES(?, ?, ?, ?)";
+                "INSERT INTO tutor (name, cpf, birthday) " +
+                        "VALUES(?, ?, ?)";
         try (PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             cantBeNull(tutor);
             cantBeNull(stm);
             stm.setString(1, tutor.getName());
             stm.setString(2, tutor.getCpf());
-            stm.setBigDecimal(3, tutor.getRemuneration());
-            stm.setString(4, tutor.getHomeKind().name());
+            stm.setDate(3, Date.valueOf(tutor.getBirthday()));
 
             stm.execute();
 
@@ -49,15 +48,14 @@ public class TutorDao implements IObjDao<Tutor>{
     public void update(Tutor tutor) throws SQLException {
         cantBeNull(tutor);
         connection.setAutoCommit(false);
-        String sql = "UPDATE tutor t SET t.name = ?, t.cpf = ?, t.remuneration = ?, t.home_kind = ? WHERE id = ?";
+        String sql = "UPDATE tutor t SET t.name = ?, t.cpf = ?, t.birthday = ? WHERE id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             cantBeNull(tutor);
             cantBeNull(stm);
             stm.setString(1, tutor.getName());
             stm.setString(2, tutor.getCpf());
-            stm.setBigDecimal(3, tutor.getRemuneration());
-            stm.setString(4, tutor.getHomeKind().name());
-            stm.setLong(5, tutor.getId());
+            stm.setDate(3, Date.valueOf(tutor.getBirthday()));
+            stm.setLong(4, tutor.getId());
             stm.execute();
             int updateCount = stm.getUpdateCount();
             System.out.println("Modified lines: " + updateCount);
@@ -89,15 +87,14 @@ public class TutorDao implements IObjDao<Tutor>{
         cantBeNull(id);
         Tutor tutor = new Tutor();
         connection.setAutoCommit(false);
-        String sql = "SELECT t.id, t.name, t.cpf, t.remuneration, t.home_kind FROM tutor t WHERE t.id = ?";
+        String sql = "SELECT t.id, t.name, t.cpf, t.birthday FROM tutor t WHERE t.id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setLong(1, id);
             stm.execute();
             try (ResultSet rst = stm.getResultSet()) {
                 while (rst.next()) {
-                    tutor = new Tutor(rst.getLong("t.id"), rst.getString("t.name"), rst.getString("t.cpf"),
-                            rst.getBigDecimal("t.remuneration"),
-                            HomeKind.valueOf(rst.getString("t.home_kind")));
+                    tutor = new Tutor(rst.getLong("t.id"), rst.getString("t.name"),
+                            rst.getString("t.cpf"), rst.getDate("t.birthday").toLocalDate());
                 }
             }
         } catch (SQLException e) {
@@ -110,7 +107,7 @@ public class TutorDao implements IObjDao<Tutor>{
     @Override
     public List<Tutor> findAll() {
         List<Tutor> tutors = new ArrayList<>();
-        String sql = "SELECT t.id, t.name, t.cpf, t.remuneration, t.home_kind FROM tutor t";
+        String sql = "SELECT t.id, t.name, t.birthday FROM tutor t";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.execute();
             this.turnResultSetInTutor(tutors, stm);
@@ -124,8 +121,7 @@ public class TutorDao implements IObjDao<Tutor>{
         try (ResultSet rst = pstm.getResultSet()) {
             while (rst.next()) {
                 Tutor tutor = new Tutor(rst.getString("t.name"), rst.getString("t.cpf"),
-                        rst.getBigDecimal("t.remuneration"),
-                        HomeKind.valueOf(rst.getString("t.home_kind")));
+                        rst.getDate("t.birthday").toLocalDate());
                 tutors.add(tutor);
             }
         }

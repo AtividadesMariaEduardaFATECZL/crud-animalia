@@ -1,36 +1,29 @@
 package com.animalia.crudanimalia.model;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
-import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNull;
 import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNullOrEmpty;
 
 public class Tutor {
     private Long id;
     private String name;
     private String cpf;
-    private BigDecimal remuneration;
-    private HomeKind homeKind = HomeKind.HOUSE;
-
+    private LocalDate birthday;
     @Deprecated
     public Tutor() {}
 
-    public Tutor(String name, String cpf,BigDecimal remuneration) {
+    public Tutor(String name, String cpf,LocalDate birthday) {
         cantBeNullOrEmpty(name);
         cantBeNullOrEmpty(cpf);
         this.name = name;
         this.cpf = cpf;
-        this.remuneration = remuneration;
+        this.birthday = birthday;
     }
 
-    public Tutor(String name, String cpf, BigDecimal remuneration, HomeKind homeKind) {
-        this(name, cpf, remuneration);
-        this.homeKind = homeKind;
-    }
-
-    public Tutor(Long id, String name, String cpf, BigDecimal remuneration, HomeKind homeKind) {
-       this(name, cpf, remuneration);
-       this.id = id;
+    @Deprecated
+    public Tutor(Long id, String name, String cpf, LocalDate birthday) {
+        this(name, cpf, birthday);
+        this.id = id;
     }
 
     public Long getId() {
@@ -45,26 +38,7 @@ public class Tutor {
         return cpf;
     }
 
-    public BigDecimal getRemuneration() {
-        return remuneration;
-    }
-
-    public HomeKind getHomeKind() {
-        return homeKind;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Tutor{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", remuneration=" + remuneration +
-                ", homeKind=" + homeKind +
-                '}';
+    public LocalDate getBirthday() {
+        return birthday;
     }
 }
