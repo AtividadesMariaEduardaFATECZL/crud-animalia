@@ -1,36 +1,30 @@
 package com.animalia.crudanimalia.model;
 
-import java.math.BigDecimal;
-
-import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNull;
 import static com.animalia.crudanimalia.utils.validator.ValidadorUtils.cantBeNullOrEmpty;
 
 public class Pet {
     private Long id;
     private String name;
-    private BigDecimal monthlyCost;
-    private PetKind kind = PetKind.DOG;
-    private PetSize size = PetSize.MEDIUM;
+    private String kind;
+    private String size;
 
     @Deprecated
     public Pet() {}
 
-    public Pet(String name, BigDecimal monthlyCost) {
+    public Pet(String name) {
         cantBeNullOrEmpty(name);
-        cantBeNull(monthlyCost);
         this.name = name;
-        this.monthlyCost = monthlyCost;
     }
 
-    public Pet(String name, BigDecimal monthlyCost, PetKind kind, PetSize size) {
-        this(name, monthlyCost);
-        this.kind = kind;
+    public Pet(String name, String kind, String size) {
+        this(name);
+        this. kind = kind;
         this.size = size;
     }
 
     @Deprecated
-    public Pet(Long id, String name, BigDecimal monthlyCost, PetKind kind, PetSize size) {
-        this(name, monthlyCost, kind, size);
+    public Pet(Long id, String name, String kind, String size) {
+        this(name);
         this.id = id;
     }
 
@@ -42,15 +36,12 @@ public class Pet {
         return name;
     }
 
-    public BigDecimal getMonthlyCost() {
-        return monthlyCost;
-    }
 
-    public PetKind getKind() {
+    public String getKind() {
         return kind;
     }
 
-    public PetSize getSize() {
+    public String getSize() {
         return size;
     }
 
@@ -59,7 +50,6 @@ public class Pet {
         return "Pet{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", monthlyCost=" + monthlyCost +
                 ", kind=" + kind +
                 ", size=" + size +
                 '}';

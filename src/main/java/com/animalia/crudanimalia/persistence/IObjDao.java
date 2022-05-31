@@ -13,5 +13,5 @@ public interface IObjDao<T> {
     public T findById(Long id) throws SQLException;
     public List<T> findAll() throws SQLException;
 
-    List<Tutor> findByName(String name) throws SQLException;
+    List<T> findByName(String name) throws SQLException;
 }

@@ -10,16 +10,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class PetController {
     private final StringProperty name = new SimpleStringProperty("");
-    private final ObjectProperty<BigDecimal> monthlyCost = new SimpleObjectProperty<>();
-
-    private final ObjectProperty<PetKind> kind = new SimpleObjectProperty<>();
-    private final ObjectProperty<PetSize> size = new SimpleObjectProperty<>();
+    private final StringProperty kind = new SimpleStringProperty("");
+    private final StringProperty size = new SimpleStringProperty("");
 
     Connection connection = new ConnectionFactory().retrieveConnection();
     private final PetDao dao = new PetDao(connection);
@@ -31,14 +28,12 @@ public class PetController {
     public PetController() throws SQLException {
         TableColumn<Pet, String> col1 = new TableColumn<>("Nome");
         col1.setCellValueFactory(new PropertyValueFactory<>("name"));
-        TableColumn<Pet, String> col2 = new TableColumn<>("Custo mensal");
-        col2.setCellValueFactory(new PropertyValueFactory<>("monthlyCost"));
-        TableColumn<Pet, String> col3 = new TableColumn<>("Tipo");
+        TableColumn<Pet, String> col2 = new TableColumn<>("Tipo");
         col2.setCellValueFactory(new PropertyValueFactory<>("kind"));
-        TableColumn<Pet, String> col4 = new TableColumn<>("Tamanho");
-        col2.setCellValueFactory(new PropertyValueFactory<>("size"));
+        TableColumn<Pet, String> col3 = new TableColumn<>("Tamanho");
+        col3.setCellValueFactory(new PropertyValueFactory<>("size"));
 
-        table.getColumns().addAll(col1, col2, col3, col4);
+        table.getColumns().addAll(col1, col2, col3);
 
         table.setItems(pets);
     }
@@ -47,22 +42,19 @@ public class PetController {
         return name;
     }
 
-    public ObjectProperty<PetKind> kindProperty() {
+    public StringProperty kindProperty() {
         return kind;
     }
 
-    public ObjectProperty<PetSize> sizeProperty() {
+    public StringProperty sizeProperty() {
         return size;
     }
 
-    public ObjectProperty<BigDecimal> monthlyCostProperty() {
-        return monthlyCost;
-    }
-
     public void add() throws SQLException {
-        Pet pet = new Pet(name.get(),monthlyCost.get(), kind.get(), size.get());
+        Pet pet = new Pet(name.get(), kind.get(), size.get());
         pets.add(pet);
         dao.insert(pet);
+        System.out.println(dao.findAll());
     }
 
     public TableView getTable() {

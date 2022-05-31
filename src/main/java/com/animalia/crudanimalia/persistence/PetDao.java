@@ -20,15 +20,14 @@ public class PetDao implements IObjDao<Pet> {
         cantBeNull(pet);
         connection.setAutoCommit(false);
         String sql =
-                "INSERT INTO pet (name, monthlyCost, kind, size) " +
-                        "VALUES(?, ?, ?, ?)";
+                "INSERT INTO pet (name, kind, size) " +
+                        "VALUES(?, ?, ?)";
         try (PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             cantBeNull(pet);
             cantBeNull(stm);
             stm.setString(1, pet.getName());
-            stm.setBigDecimal(2, pet.getMonthlyCost());
-            stm.setString(3, pet.getKind().name());
-            stm.setString(4, pet.getSize().name());
+            stm.setString(2, pet.getKind());
+            stm.setString(3, pet.getSize());
 
             stm.execute();
 
@@ -48,15 +47,14 @@ public class PetDao implements IObjDao<Pet> {
     public void update(Pet pet) throws SQLException {
         cantBeNull(pet);
         connection.setAutoCommit(false);
-        String sql = "UPDATE pet p SET p.name = ?, p.monthlyCost = ?, p.kind = ?, p.size = ? WHERE id = ?";
+        String sql = "UPDATE pet p SET p.name = ?,  p.kind = ?, p.size = ? WHERE id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             cantBeNull(pet);
             cantBeNull(stm);
             stm.setString(1, pet.getName());
-            stm.setBigDecimal(2, pet.getMonthlyCost());
-            stm.setString(3, pet.getKind().name());
-            stm.setString(4, pet.getSize().name());
-            stm.setLong(5, pet.getId());
+            stm.setString(2, pet.getKind());
+            stm.setString(3, pet.getSize());
+            stm.setLong(4, pet.getId());
             stm.execute();
             int updateCount = stm.getUpdateCount();
             System.out.println("Modified lines: " + updateCount);
@@ -88,15 +86,15 @@ public class PetDao implements IObjDao<Pet> {
         cantBeNull(id);
         Pet pet = new Pet();
         connection.setAutoCommit(false);
-        String sql = "SELECT p.id, p.name, p.monthlyCost, p.kind, p.size FROM pet p WHERE p.id = ?";
+        String sql = "SELECT p.id, p.name, p.kind, p.size FROM pet p WHERE p.id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setLong(1, id);
             stm.execute();
             try (ResultSet rst = stm.getResultSet()) {
                 while (rst.next()) {
-                    pet = new Pet(rst.getLong("p.id"), rst.getString("p.name"), rst.getBigDecimal("p.monthlyCost"),
-                            PetKind.valueOf(rst.getString("p.kind")),
-                            PetSize.valueOf(rst.getString("p.size")));
+                    pet = new Pet(rst.getLong("p.id"), rst.getString("p.name"),
+                            (rst.getString("p.kind")),
+                            (rst.getString("p.size")));
                 }
             }
         } catch (SQLException e) {
@@ -111,7 +109,7 @@ public class PetDao implements IObjDao<Pet> {
         List<Pet> pets = new ArrayList<>();
 
         String sql =
-                "SELECT p.name, p.monthlyCost, p.kind, p.size FROM pet p";
+                "SELECT p.name, p.kind, p.size FROM pet p";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.execute();
             this.turnResultSetInPet(pets, stm);
@@ -122,17 +120,22 @@ public class PetDao implements IObjDao<Pet> {
     }
 
     @Override
-    public List<Tutor> findByName(String name) throws SQLException {
-        return null;
+    public List<Pet> findByName(String name) throws SQLException {
+        List<Pet> pets = new ArrayList<>();
+        String sql = "SELECT p.name, p.kind, p.size FROM pet p WHERE t.name LIKE '%" + name + "%'";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.execute();
+            this.turnResultSetInPet(pets, stm);
+        }
+        return pets;
     }
 
 
     private void turnResultSetInPet(List<Pet> pets, PreparedStatement pstm) throws SQLException {
         try (ResultSet rst = pstm.getResultSet()) {
             while (rst.next()) {
-                Pet pet = new Pet(rst.getString("p.name"), rst.getBigDecimal("p.monthlyCost"),
-                        PetKind.valueOf(rst.getString("p.kind")),
-                        PetSize.valueOf(rst.getString("p.size")));
+                Pet pet = new Pet(rst.getString("p.name"), (rst.getString("p.kind")),
+                        (rst.getString("p.size")));
                 pets.add(pet);
             }
         }
