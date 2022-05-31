@@ -54,6 +54,14 @@ public class HelloApplication extends Application {
             }
         });
 
+        btnPesquisar.setOnAction(e -> {
+            try {
+                control.search();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         Scene scn = new Scene(principal, 500, 500);
         stage.setScene(scn);
         stage.setTitle("Adoção de animais");

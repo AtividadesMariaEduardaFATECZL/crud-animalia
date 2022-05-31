@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class PetController {
     private final StringProperty name = new SimpleStringProperty("");
@@ -55,6 +56,12 @@ public class PetController {
         pets.add(pet);
         dao.insert(pet);
         System.out.println(dao.findAll());
+    }
+
+    public void search() throws SQLException {
+        List<Pet> petsFound = dao.findByName(name.get());
+        pets.clear();
+        pets.addAll(petsFound);
     }
 
     public TableView getTable() {

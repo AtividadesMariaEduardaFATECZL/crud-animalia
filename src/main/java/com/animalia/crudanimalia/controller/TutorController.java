@@ -56,7 +56,7 @@ public class TutorController {
     }
 
 
-    public void pesquisar() throws SQLException {
+    public void search() throws SQLException {
         List<Tutor> tutorsFound = dao.findByName(name.get());
         tutors.clear();
         tutors.addAll(tutorsFound);

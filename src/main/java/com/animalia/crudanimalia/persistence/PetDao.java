@@ -122,7 +122,7 @@ public class PetDao implements IObjDao<Pet> {
     @Override
     public List<Pet> findByName(String name) throws SQLException {
         List<Pet> pets = new ArrayList<>();
-        String sql = "SELECT p.name, p.kind, p.size FROM pet p WHERE t.name LIKE '%" + name + "%'";
+        String sql = "SELECT p.name, p.kind, p.size FROM pet p WHERE p.name LIKE '%" + name + "%'";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.execute();
             this.turnResultSetInPet(pets, stm);

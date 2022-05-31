@@ -9,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class TutorView extends Application {
@@ -44,7 +43,7 @@ public class TutorView extends Application {
 
         btnPesquisar.setOnAction(e -> {
             try {
-                control.pesquisar();
+                control.search();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
