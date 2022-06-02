@@ -130,7 +130,6 @@ public class PetDao implements IObjDao<Pet> {
         return pets;
     }
 
-
     private void turnResultSetInPet(List<Pet> pets, PreparedStatement pstm) throws SQLException {
         try (ResultSet rst = pstm.getResultSet()) {
             while (rst.next()) {
